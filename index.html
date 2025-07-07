@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecionando...</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #bd8d08; 
+        }
+        #contador {
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #010a13;
+            transition: transform 0.3s ease;
+        }
+        #contador.animar {
+    transform: scale(1.3);
+    color: #f00;
+        }
+        #botao-pular {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      background-color: #010a13;
+      color: #fff;
+      border-radius: 5px;
+    }
+     #botao-pular:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+    </style>
+</head>
+<body>
+    <h1>Você será redirecionado em <span id="contador">3</span> segundos...</h1>
+    <p>Aguarde um instante.</p>
+
+    <script>
+        let tempo = 3;
+        const contadorElemento = document.getElementById('contador');
+        const botaoPular = document.getElementById("botao-pular");
+        const titulo = document.querySelector("h1");
+        const urlDestino = "https://open.spotify.com/intl-pt/album/5lDEu9KbYs8SZva0eaooqa";
+
+            
+        const intervalo = setInterval(() => {
+            tempo--;
+            contadorElemento.textContent = tempo;
+            
+            
+            if (tempo <= 0) {
+                clearInterval(intervalo);
+                window.location.href = "https://open.spotify.com/intl-pt/album/5lDEu9KbYs8SZva0eaooqa";
+            }
+        }, 1000);
+    </script>
+
+    <button id="botao-pular" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+  Ir agora
+</button>
+
+<script>
+  document.getElementById('botao-pular').onclick = () => {
+    clearInterval(intervalo);
+    window.location.href = "https://open.spotify.com/intl-pt/album/5lDEu9KbYs8SZva0eaooqa";
+  }
+</script>
+<p>Você será levado para: 
+  <a href="https://open.spotify.com/intl-pt/album/5lDEu9KbYs8SZva0eaooqa" target="_blank" rel="noopener noreferrer">
+    Spotify - Álbum
+  </a>
+</p>
+
+</body>
+
+<noscript>
+  <p>Para continuar, por favor habilite o JavaScript no seu navegador.</p>
+</noscript>
+function tocarBeep() {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = 'sine'; // tipo de onda
+      oscillator.frequency.setValueAtTime(800, audioCtx.currentTime); // frequência em Hz
+      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // volume baixo
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.1); // dura 0.1 segundos
+    }
+
+    const intervalo = setInterval(() => {
+      tempo--;
+      contadorElemento.textContent = tempo;
+
+      contadorElemento.classList.add("animar");
+      setTimeout(() => contadorElemento.classList.remove("animar"), 300);
+
+      tocarBeep();  // toca beep a cada segundo
+
+      if (tempo <= 0) {
+        clearInterval(intervalo);
+        titulo.textContent = "Redirecionando agora...";
+        botaoPular.disabled = true;
+        // Também toca beep final
+        tocarBeep();
+        window.location.href = urlDestino;
+      }
+    }, 1000);
+
+    botaoPular.onclick = () => {
+      clearInterval(intervalo);
+      botaoPular.disabled = true;
+      titulo.textContent = "Redirecionando agora...";
+      tocarBeep();
+      window.location.href = urlDestino;
+    };
+  </script>
+
+
+</body>
+</html>
